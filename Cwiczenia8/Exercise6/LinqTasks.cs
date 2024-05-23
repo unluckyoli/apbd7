@@ -159,12 +159,28 @@ namespace Exercise6
             #endregion
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         /// <summary>
         ///     SELECT * FROM Emps WHERE Job = "Backend programmer";
         /// </summary>
         public static IEnumerable<Emp> Task1()
         {
-            IEnumerable<Emp> result = null;
+            var methodSyntax = Emps.Where(e => e.Job == "Backend programmer");
+            IEnumerable<Emp> result = methodSyntax;
             return result;
         }
 
@@ -196,8 +212,8 @@ namespace Exercise6
         /// </summary>
         public static int Task3()
         {
-            int result = 0;
-            return result;
+            var methodSyntax = Emps.Max(e => e.Salary);
+            return methodSyntax;
         }
 
         /// <summary>
@@ -205,8 +221,9 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Emp> Task4()
         {
-            IEnumerable<Emp> result = null;
-            return result;
+            var maxSalary = Emps.Max(e => e.Salary);
+            var methodSyntax = Emps.Where(e => e.Salary == maxSalary);
+            return methodSyntax;
         }
 
         /// <summary>
@@ -232,8 +249,11 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task6()
         {
-            IEnumerable<object> result = null;
-            return result;
+            var methodSyntax = Emps.Join(Depts,
+                e => e.Deptno,
+                d => d.Deptno,
+                (e, d) => new { e.Ename, e.Job, d.Dname });
+            return methodSyntax;
         }
 
         /// <summary>
