@@ -296,8 +296,10 @@ namespace Exercise6
         public static IEnumerable<object> Task10()
         {
             var empData = Emps.Select(e => new { e.Ename, e.Job, e.HireDate });
+            
             var emptyData = new[] { new { Ename = "Brak wartości", Job = (string)null, HireDate = (DateTime?)null } };
             var methodSyntax = empData.Union(emptyData);
+            
             return methodSyntax;
         }
 
@@ -316,10 +318,11 @@ namespace Exercise6
         {
             var methodSyntax = Emps.GroupBy(e => e.Deptno)
                 .Where(g => g.Count() > 1)
-                .Select(g => new
-                {
+                .Select(g => new {
+                    
                     name = Depts.FirstOrDefault(d => d.Deptno == g.Key).Dname,
                     numOfEmployees = g.Count()
+                    
                 });
             return methodSyntax;
         }
@@ -331,10 +334,13 @@ namespace Exercise6
         /// Metoda powinna zwrócić tylko tych pracowników, którzy mają min. 1 bezpośredniego podwładnego.
         /// Pracownicy powinny w ramach kolekcji być posortowani po nazwisku (rosnąco) i pensji (malejąco).
         /// </summary>
+        
+        
         public static IEnumerable<Emp> Task12()
         {
-            IEnumerable<Emp> result = null;
-            return result;
+            var methodSyntax = Emps.WithSubordinates();
+            
+            return methodSyntax;
         }
 
         /// <summary>
@@ -346,9 +352,11 @@ namespace Exercise6
         /// </summary>
         public static int Task13(int[] arr)
         {
-            int result = 0;
-            //result=
-            return result;
+            var methodSyntax = arr.GroupBy(x => x)
+                .Single(g => g.Count() % 2 != 0)
+                .Key;
+            
+            return methodSyntax;
         }
 
         /// <summary>
@@ -357,14 +365,24 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<Dept> Task14()
         {
-            IEnumerable<Dept> result = null;
-            //result =
+            var result = Depts.Where(d => Emps.Count(e => e.Deptno == d.Deptno) == 5 || !Emps.Any(e => e.Deptno == d.Deptno))
+                .OrderBy(d => d.Dname);
+            
+            
             return result;
         }
     }
 
     public static class CustomExtensionMethods
     {
-        //Put your extension methods here
+        public static IEnumerable<Emp> WithSubordinates(this IEnumerable<Emp> emps)
+        {
+            var result = emps.Where(e => emps.Any(sub => sub.Mgr == e))
+                .OrderBy(e => e.Ename)
+                .ThenByDescending(e => e.Salary);
+            
+            
+            return result;
+        }
     }
 }
