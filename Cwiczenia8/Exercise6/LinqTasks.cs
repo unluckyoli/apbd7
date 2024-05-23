@@ -261,8 +261,9 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task7()
         {
-            IEnumerable<object> result = null;
-            return result;
+            var methodSyntax = Emps.GroupBy(e => e.Job)
+                .Select(g => new { Praca = g.Key, LiczbaPracownikow = g.Count() });
+            return methodSyntax;
         }
 
         /// <summary>
@@ -271,8 +272,8 @@ namespace Exercise6
         /// </summary>
         public static bool Task8()
         {
-            bool result = false;
-            return result;
+            var methodSyntax = Emps.Any(e => e.Job == "Backend programmer");
+            return methodSyntax;
         }
 
         /// <summary>
@@ -281,8 +282,10 @@ namespace Exercise6
         /// </summary>
         public static Emp Task9()
         {
-            Emp result = null;
-            return result;
+            var methodSyntax = Emps.Where(e => e.Job == "Frontend programmer")
+                .OrderByDescending(e => e.HireDate)
+                .FirstOrDefault();
+            return methodSyntax;
         }
 
         /// <summary>
@@ -292,8 +295,10 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task10()
         {
-            IEnumerable<object> result = null;
-            return result;
+            var empData = Emps.Select(e => new { e.Ename, e.Job, e.HireDate });
+            var emptyData = new[] { new { Ename = "Brak wartości", Job = (string)null, HireDate = (DateTime?)null } };
+            var methodSyntax = empData.Union(emptyData);
+            return methodSyntax;
         }
 
         /// <summary>
@@ -309,8 +314,14 @@ namespace Exercise6
         /// </summary>
         public static IEnumerable<object> Task11()
         {
-            IEnumerable<object> result = null;
-            return result;
+            var methodSyntax = Emps.GroupBy(e => e.Deptno)
+                .Where(g => g.Count() > 1)
+                .Select(g => new
+                {
+                    name = Depts.FirstOrDefault(d => d.Deptno == g.Key).Dname,
+                    numOfEmployees = g.Count()
+                });
+            return methodSyntax;
         }
 
         /// <summary>
